@@ -1,0 +1,234 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'calculator/mystyles.css' %}" />
+  <title>Future Value Calculator</title>
+</head>
+
+<body>
+  <div class="navbar">
+    <div class="navbar-title">Calculator.Net</div>
+    <div class="navbar-menus">
+      <ul class="menu-items">
+        <li class="item">
+          <a href="">Finance</a>
+        </li>
+        <li class="item">
+          <a href="">Fitness</a>
+        </li>
+        <li class="item">
+          <a href="">Math</a>
+        </li>
+        <li class="item">
+          <a href="">Other</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="contents">
+
+
+    <div class="main-content">
+      <div class="leftsec">
+        <div class="intro">
+          <h2>Future Value Calculator</h2>
+          <p>
+            The future value calculator can be used to calculate the future
+            value (FV) of an investment with given inputs of compounding periods
+            (N), interest/yield rate (I/Y), starting amount, and periodic
+            deposit/annuity payment per period (PMT).
+          </p>
+        </div>
+        <div class="form-container">
+          <form class="calc-form" method="post">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="input-container">
+              <label class="mylabel">{{ field.label }}</label>
+              {{ field }}
+            </div>
+            {% endfor %}
+            <div class="btn"><input class="calculate-btn" type="submit" value="Calculate"></div>
+          </form>
+        </div>
+      </div>
+      <div class="rightsec">
+          <h4>RESULT</h4>
+          <section><strong>Future Value:</strong><text class="result">${{fv}}</t></section>
+          <div class="grid-container">
+            <div>N (Number of Periods)
+            </div>
+            <div>{{n}}
+            </div>
+            <div>
+              I/Y (Interest Rate)
+            </div>
+            <div>{{rate}}
+            </div>
+            <div>
+              PMT (Periodic Deposit)
+            </div>
+            <div>{{pmt}}
+            </div>
+            <div>Starting Amount
+            </div>
+            <div>{{pv}}
+            </div>
+            <div>
+              Total Periodic Deposits
+            </div>
+            <div>{{tpd}}
+            </div>
+            <div>
+              Total Interest
+            </div>
+            <div>{{tot_int}}
+            </div>
+          </div>
+      </div>
+    </div>
+
+    <div class="graph-container">
+      <section class="line-graph">
+        <h3>Balance Accumulation Graph</h3>
+        <canvas id="line-chart"></canvas>
+      </section>
+      <section class="pichart">
+        <h3>Breakdown</h3>
+        <canvas id="pie-chart"></canvas>
+      </section>
+    </div>
+
+
+    <div class="schedule-table">
+      <h3>SCHEDULE</h3>
+      <table>
+        <tr>
+          <th>Start principal</th>
+          <th>Start Balance</th>
+          <th>Interest</th>
+          <th>End Balance</th>
+          <th>End Principal</th>
+        </tr>
+        {% for i in pdata %}
+        <tr>
+          <td>{{i.0}}</td>
+          <td>{{i.1}}</td>
+          <td>{{i.2}}</td>
+          <td>{{i.3}}</td>
+          <td>{{i.4}}</td>
+        </tr>
+        {%endfor%}
+      </table>
+    </div>
+  </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+
+  <script type="text/javascript">
+
+    function converttodic(arr) {
+      var k, newarr = [], l = 0;
+      for (k = 0; k < arr.length - 1;) {
+        newarr.push({ x: l++, y: arr[k++] });
+        newarr.push({ x: l, y: arr[k++] });
+      }
+      return newarr
+    }
+    var pv = {{ pv }}
+    var tot_int = {{ tot_int }};
+    var tpd = {{ tpd }}
+    var balance = {{ balance }}
+    var principal = {{ principal }}
+    var i_s = {{ i_s }}
+
+    newbalance = converttodic(balance);
+    newprincipal = converttodic(principal);
+    newi_s = []
+    for (k = 0; k < i_s.length; k++) {
+      newi_s[k] = { 'x': k, 'y': i_s[k] };
+    }
+
+    console.log(newbalance);
+    console.log(newprincipal);
+    console.log(newi_s);
+
+    labelss = []
+    for (var i = 0; i <= {{ n }}; i++) {
+      labelss.push(i);
+    }
+
+    new Chart(document.getElementById("pie-chart"), {
+      type: "pie",
+      data: {
+        labels: [
+          "Starting Amount",
+          "Interest",
+          "Periodic Deposit",
+        ],
+        datasets: [
+          {
+            label: "amount",
+            backgroundColor: [
+              "#3e95cd",
+              "#8e5ea2",
+              "#3cba9f",
+              "#e8c3b9",
+              "#c45850",
+            ],
+            data: [pv, tot_int, tpd],
+          },
+        ],
+      },
+      options: {
+        plugins: {
+          legend: {
+            position: "bottom",
+          },
+        },
+        title: {
+          display: true,
+          text: "",
+        },
+      },
+    });
+
+    new Chart(document.getElementById("line-chart"), {
+      type: "line",
+      data: {
+        labels: labelss,
+        datasets: [
+          {
+            data: newbalance,
+            label: "Balance",
+            borderColor: "#3e95cd",
+            fill: false,
+          },
+          {
+            data: newprincipal,
+            label: "Principal",
+            borderColor: "#8e5ea2",
+            fill: false,
+          },
+          {
+            data: newi_s,
+            label: "Interest",
+            borderColor: "#e390a2",
+            fill: false,
+            tension: 0.8,
+          },
+        ],
+      },
+    });
+
+  </script>
+</body>
+
+</html>

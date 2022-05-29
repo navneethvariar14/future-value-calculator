@@ -1,0 +1,181 @@
+* {
+  box-sizing: border-box;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  padding: 0px;
+  margin: 0px;
+}
+
+.navbar {
+  font-size: 1.3rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 5px;
+  margin: 0px;
+  background-color: rgb(132, 173, 250);
+}
+
+.navbar-title {
+  font-size: 2rem;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.menu-items {
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+}
+
+li a {
+  margin: 8px;
+  text-decoration: none;
+  color: black;
+}
+
+.contents {
+  display: flex;
+  padding: 10px 150px;
+  align-items: center;
+  flex-direction: column;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-around;
+}
+
+.leftsec,
+.rightsec {
+  width: 42%;
+}
+
+.calc-form {
+  padding: 10px;
+  background-color: rgb(191, 255, 138);
+}
+
+.calc-form > div {
+  margin: 8px;
+}
+.input-container {
+  display: flex;
+  justify-content: space-between;
+  height: 30px;
+}
+.input-container input {
+  width: 80px;
+}
+.form-container {
+  font-size: 16px;
+  margin-right: 15px;
+}
+.grid-container {
+  display: grid;
+  grid-template-rows: auto auto auto auto auto auto auto;
+  grid-template-columns: 70% 30%;
+  gap: 5px;
+}
+
+.grid-container div {
+  background-color: rgb(169, 222, 247);
+  padding: 8px;
+  font-size: 16px;
+}
+
+.result h4 {
+  background-color: rgb(199, 250, 152);
+  margin: 2px;
+  padding: 4px;
+}
+
+.result section,
+.result > section > strong {
+  background-color: transparent;
+  margin: 8px 2px;
+}
+.calculate-btn {
+  width: 100%;
+  padding: 7px;
+  border: none;
+  background-color: rgb(9, 82, 18);
+  color: white;
+  border-radius: 12px;
+  margin: 10px auto;
+  font-size: large;
+  font-weight: bold;
+}
+
+.graph-container {
+  width: 70vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.pichart {
+  width: 35%;
+  text-align: center;
+}
+
+.line-graph {
+  width: 64%;
+  text-align: center;
+}
+
+table {
+  border: 1px solid black;
+  background-color: rgb(205, 255, 209);
+  margin: 4px;
+}
+
+th,
+td {
+  padding: 4px;
+  width: 7%;
+  text-align: left;
+  border: 0.5px solid black;
+}
+
+th,
+th td {
+  background-color: rgb(255, 255, 195);
+}
+
+.rightsec h4 {
+  margin: 0;
+  margin-top: 12px;
+  font-size: larger;
+  background-color: rgb(2, 65, 21);
+  color: white;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  padding: 10px;
+}
+.rightsec section {
+  margin: 14px;
+  font-size: 20px;
+  font-weight: 200;
+}
+
+.result {
+  margin: 20px;
+  color: rgb(14, 36, 83);
+  font-size: 23px;
+  font-weight: bold;
+}
+
+.rightsec {
+  margin-bottom: 23px;
+}
+
+input {
+  font-size: 17px;
+}
